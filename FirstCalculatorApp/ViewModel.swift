@@ -47,15 +47,13 @@ class CalculatorViewModel {
 
             let formula = displayValue.replacingOccurrences(of: "×", with: "*")
                                       .replacingOccurrences(of: "÷", with: "/")
-            
-            let expression = NSExpression(format: formula)
+        
+            let floatingPointFormula = "1.0 * \(formula)"
+            let expression = NSExpression(format: floatingPointFormula)
             
             if let result = expression.expressionValue(with: nil, context: nil) as? Double {
-                if result.truncatingRemainder(dividingBy: 1) == 0 {
-                    displayValue = String(format: "%.0f", result)
-                } else {
-                    displayValue = String(result)
-                }
+                let formattedResult = String(format: "%.8f", result)
+                displayValue = formatFinalString(formattedResult)
                 isFinalResult = true
             }
         }
@@ -80,6 +78,14 @@ class CalculatorViewModel {
             case "times": return "×"
             case "divided": return "÷"
             default: return ""
-            }
         }
+    }
+    
+    private func formatFinalString(_ string: String) -> String {
+        var result = string
+        while result.contains(".") && (result.hasSuffix("0") || result.hasSuffix(".")) {
+            result.removeLast()
+        }
+        return result
+    }
 }

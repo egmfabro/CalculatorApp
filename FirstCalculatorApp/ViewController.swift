@@ -36,6 +36,11 @@ class ViewController: UIViewController {
         historyTextField?.text = viewModel.displayValue + "="
         viewModel.calculatedResult()
         updateUI()
+        
+        if let resultVC = storyboard?.instantiateViewController(withIdentifier: "ResultViewController") as? ResultViewController {
+            resultVC.finalResult = viewModel.displayValue
+            navigationController?.pushViewController(resultVC, animated: true)
+        }
     }
     
     @IBAction func onBackButtonPressed(_ sender: UIButton) {
