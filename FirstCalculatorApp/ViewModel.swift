@@ -12,10 +12,6 @@ class CalculatorViewModel {
     var displayValue: String = "0"
     private var isFinalResult = false
     
-    private var firstNumber: Double = 0
-    private var currentOperation: String = ""
-    private var isTypingNumber = false
-    
     func receiveDigit (_ digit: String) {
         if displayValue == "0" || isFinalResult {
             displayValue = (digit == ".") ? "0." : digit
